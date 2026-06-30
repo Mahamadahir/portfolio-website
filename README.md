@@ -57,6 +57,14 @@ A progressive overload training companion that blends workout planning, nutritio
 
 Repo: **https://github.com/Mahamadahir/fitness_app** (private)
 
+### CipherStash
+
+A cryptocurrency wallet web application built for the Group 37 QMUL Software Engineering project. Users register, create wallets in different coins, transfer funds between wallets, send transactions to saved addresses, and view coin-rate data. Admin users manage users, transactions, and analytics.
+
+**Stack:** Python 3 · Flask · MySQL · Vue 3 · Vue Router · Vuex · Element Plus · ECharts
+
+Repo: **https://github.com/Mahamadahir/cipherstash** (private)
+
 ### PermissionLedger
 
 *In progress.* A dashboard to track, review, and manage online consent decisions, app permissions, and privacy policy changes from one place. Records can be created manually or captured from the current site through a browser extension, then searched, filtered, reviewed, revoked, and exported.
@@ -95,6 +103,9 @@ mahamadahir.com
 │
 ├── /projects/fitness-tracker
 │   Fitness Tracker case study
+│
+├── /projects/cipherstash
+│   CipherStash case study
 │
 ├── /projects/permission-ledger
 │   PermissionLedger case study (in progress)
