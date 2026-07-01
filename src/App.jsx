@@ -8,6 +8,7 @@ import {
   Linkedin,
   Layers3,
   Mail,
+  MapPin,
   Smartphone,
 } from 'lucide-react';
 import { createElement, useState } from 'react';
@@ -28,6 +29,7 @@ const profileLinks = [
 
 const emailAddress = 'mrmahamadahir@gmail.com';
 const emailHref = `mailto:${emailAddress}?subject=Portfolio enquiry`;
+const location = 'London';
 
 const skills = [
   {
@@ -237,6 +239,9 @@ function Hero() {
             I am Mahamad Dahir, a developer focused on full-stack web apps, mobile
             clients, cloud deployment, and systems that explain their decisions.
           </p>
+          <div className="mt-6">
+            <LocationPill />
+          </div>
           <div className="mt-9 flex flex-wrap gap-4">
             {profileLinks.map((link) => (
               <IconLink key={link.label} {...link} />
@@ -246,6 +251,15 @@ function Hero() {
         <HeroVisual />
       </div>
     </section>
+  );
+}
+
+function LocationPill() {
+  return (
+    <div className="inline-flex min-h-11 items-center gap-3 rounded-lg border border-white/10 bg-white/[0.035] px-4 py-2 font-mono text-sm text-slate">
+      <MapPin className="h-4 w-4 text-aqua" aria-hidden="true" />
+      {location}
+    </div>
   );
 }
 
@@ -466,6 +480,7 @@ function Contact() {
             </p>
           </div>
           <div className="flex flex-wrap gap-4">
+            <LocationPill />
             <IconLink label="Email" href={emailHref} icon={Mail} />
             {profileLinks.map((link) => (
               <IconLink key={link.label} {...link} />
