@@ -70,6 +70,24 @@ const highlights = [
 
 const projects = [
   {
+    name: 'Airport Taxi Express',
+    status: 'Client work',
+    description:
+      'A paid rebuild of a Portland, Maine taxi and airport transfer website, replacing a dated WordPress site with a fast static build, structured data, and automated deployment.',
+    details: [
+      'Redesigned the site as a responsive static build with a single lightweight stylesheet and no CMS or build step.',
+      'Added per-page canonical tags, sitemap, LocalBusiness and TaxiService schema, and location landing pages for high-value destinations and airports.',
+      'Tuned performance with responsive srcset images and lazy-loaded below-the-fold assets.',
+      'Automated deployment to Bluehost with GitHub Actions, including pre-deploy backups and a manual rollback workflow.',
+    ],
+    stack: ['HTML', 'CSS', 'GitHub Actions', 'SEO'],
+    links: [
+      { label: 'Live site', href: 'https://maineairporttaxi.net/' },
+      { label: 'Repository', href: 'https://github.com/Mahamadahir/MaineAirportTaxi' },
+    ],
+    accent: 'from-amber-300/25 to-cyan/10',
+  },
+  {
     name: 'ChoreSync',
     status: 'Featured',
     description:
