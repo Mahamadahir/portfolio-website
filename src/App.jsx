@@ -56,7 +56,7 @@ const skills = [
   },
   {
     category: 'Cloud and data',
-    items: ['PostgreSQL', 'MySQL', 'Docker', 'Kubernetes', 'OpenShift', 'Cloudflare'],
+    items: ['PostgreSQL', 'MySQL', 'Docker', 'Kubernetes', 'OpenShift', 'Cloudflare', 'Azure'],
   },
 ];
 
@@ -70,11 +70,13 @@ const highlights = [
     label: 'Main project',
     value: 'ChoreSync fairness engine and mobile app',
     icon: Smartphone,
+    href: '#project-choresync',
   },
   {
     label: 'Current work',
     value: 'Regional IT technician across 5 GLF Schools sites',
     icon: CalendarClock,
+    href: '#role-regional-it-technician',
   },
 ];
 
@@ -233,6 +235,10 @@ const education = [
   },
 ];
 
+function slug(text) {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
 function App() {
   return (
     <main className="min-h-screen overflow-hidden bg-ink text-mist">
@@ -350,12 +356,26 @@ function Highlights() {
     <section className="mx-auto grid max-w-6xl gap-4 px-5 pb-20 sm:px-8 md:grid-cols-3">
       {highlights.map((item) => {
         const Icon = item.icon;
-
-        return (
-          <article key={item.label} className="rounded-2xl border border-white/10 bg-panel/65 p-6">
+        const className = 'block rounded-2xl border border-white/10 bg-panel/65 p-6';
+        const content = (
+          <>
             <Icon className="mb-5 h-6 w-6 text-aqua" aria-hidden="true" />
             <p className="font-mono text-xs uppercase tracking-[0.18em] text-slate">{item.label}</p>
             <p className="mt-3 text-lg font-semibold leading-7 text-white">{item.value}</p>
+          </>
+        );
+
+        if (item.href) {
+          return (
+            <a key={item.label} className={`${className} transition hover:-translate-y-1 hover:border-aqua/40 hover:shadow-glow`} href={item.href}>
+              {content}
+            </a>
+          );
+        }
+
+        return (
+          <article key={item.label} className={className}>
+            {content}
           </article>
         );
       })}
@@ -398,7 +418,7 @@ function ExpandableTimelineItem({ item }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <article className="rounded-2xl border border-white/10 bg-panel-soft/55 p-5">
+    <article id={`role-${slug(item.title)}`} className="scroll-mt-24 rounded-2xl border border-white/10 bg-panel-soft/55 p-5">
       <button className="w-full text-left" type="button" onClick={() => setIsOpen((current) => !current)} aria-expanded={isOpen}>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
@@ -460,7 +480,7 @@ function ProjectCard({ project }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <article className="group overflow-hidden rounded-3xl border border-white/10 bg-panel/70 transition hover:-translate-y-1 hover:border-aqua/40 hover:shadow-glow">
+    <article id={`project-${slug(project.name)}`} className="group scroll-mt-24 overflow-hidden rounded-3xl border border-white/10 bg-panel/70 transition hover:-translate-y-1 hover:border-aqua/40 hover:shadow-glow">
       <button className="block w-full text-left" type="button" onClick={() => setIsOpen((current) => !current)} aria-expanded={isOpen}>
         <div className={`h-32 bg-gradient-to-br ${project.accent} p-5`}>
           <div className="flex h-full items-end justify-between gap-3 rounded-2xl border border-white/10 bg-ink-deep/45 p-4">
