@@ -72,6 +72,7 @@ const projects = [
   {
     name: 'Airport Taxi Express',
     status: 'Client work',
+    started: 'July 2026',
     description:
       'A paid rebuild of a Portland, Maine taxi and airport transfer website, replacing a dated WordPress site with a fast static build, structured data, and automated deployment.',
     details: [
@@ -79,6 +80,9 @@ const projects = [
       'Added per-page canonical tags, sitemap, LocalBusiness and TaxiService schema, and location landing pages for high-value destinations and airports.',
       'Tuned performance with responsive srcset images and lazy-loaded below-the-fold assets.',
       'Automated deployment to Bluehost with GitHub Actions, including pre-deploy backups and a manual rollback workflow.',
+      'Reworked the rates into confirmed current prices and a pending previous-prices list, with discounted fares shown as strikethrough.',
+      'Surfaced fares across the site with hero badges, a homepage fares strip, and prices in the site directory.',
+      'Served both the .com root and the .net docroot from one deploy, with documentation-only commits skipped from CI.',
     ],
     stack: ['HTML', 'CSS', 'GitHub Actions', 'SEO'],
     links: [
@@ -90,6 +94,7 @@ const projects = [
   {
     name: 'ChoreSync',
     status: 'Featured',
+    started: 'April 2025',
     description:
       'A household chore coordination app that assigns tasks fairly, explains each decision, and supports shared households, calendar sync, notifications, and mobile use.',
     details: [
@@ -108,6 +113,7 @@ const projects = [
   {
     name: 'Hangman',
     status: 'Live',
+    started: 'June 2024',
     description:
       'A Java Hangman game with Swing and web clients over one Spring Boot backend, including a server-side word flow and online leaderboard.',
     details: [
@@ -125,6 +131,7 @@ const projects = [
   {
     name: 'Fitness Tracker',
     status: 'Mobile',
+    started: 'August 2025',
     description:
       'A Flutter training companion for progressive overload, workout planning, nutrition logging, and Health Connect or Apple Health insights.',
     details: [
@@ -136,19 +143,32 @@ const projects = [
     links: [{ label: 'README', href: 'https://github.com/Mahamadahir/fitness_app#readme' }],
     accent: 'from-violet/25 to-aqua/10',
   },
+];
+
+const currentWork = [
+  {
+    name: 'Pharmacy Revision App',
+    started: 'July 2026',
+    description:
+      'A subscription pharmacy exam revision app with spaced repetition, on web and mobile over one API, targeting a September 2026 launch.',
+    stack: ['Backend', 'Web', 'Mobile'],
+    href: 'https://github.com/Mahamadahir/UnamedApp#readme',
+  },
   {
     name: 'PermissionLedger',
-    status: 'In progress',
+    started: 'June 2026',
     description:
-      'A privacy dashboard for tracking consent decisions, app permissions, policy changes, review history, browser captures, search, and exports.',
-    details: [
-      'Models permissions, consent records, review history, and policy changes as searchable audit data.',
-      'Uses Rust and Axum for the backend with SvelteKit for the dashboard interface.',
-      'Focuses on exports and review workflows so privacy decisions can be inspected after the first capture.',
-    ],
-    stack: ['Rust', 'Axum', 'SvelteKit', 'PostgreSQL'],
-    links: [{ label: 'README', href: 'https://github.com/Mahamadahir/permission-ledger#readme' }],
-    accent: 'from-emerald-300/25 to-cyan/10',
+      'A privacy dashboard for tracking consent decisions, app permissions, policy changes, and review history, built for audit and export.',
+    stack: ['Rust', 'Axum', 'SvelteKit'],
+    href: 'https://github.com/Mahamadahir/permission-ledger#readme',
+  },
+  {
+    name: 'Marking Agent',
+    started: 'July 2026',
+    description:
+      'A human-reviewed exam grading tool that pairs an LLM’s provisional marks with a required human decision before grades are exported.',
+    stack: ['Python', 'SQLite', 'CLI'],
+    href: 'https://github.com/Mahamadahir/markingAgent#readme',
   },
 ];
 
@@ -211,6 +231,7 @@ function App() {
       <Highlights />
       <Experience />
       <Projects />
+      <CurrentWork />
       <Skills />
       <Contact />
     </main>
@@ -230,6 +251,9 @@ function SiteHeader() {
           </a>
           <a className="transition hover:text-aqua" href="#projects">
             Projects
+          </a>
+          <a className="transition hover:text-aqua" href="#current-work">
+            Now
           </a>
           <a className="transition hover:text-aqua" href="#skills">
             Skills
@@ -412,9 +436,15 @@ function ProjectCard({ project }) {
     <article className="group overflow-hidden rounded-3xl border border-white/10 bg-panel/70 transition hover:-translate-y-1 hover:border-aqua/40 hover:shadow-glow">
       <button className="block w-full text-left" type="button" onClick={() => setIsOpen((current) => !current)} aria-expanded={isOpen}>
         <div className={`h-32 bg-gradient-to-br ${project.accent} p-5`}>
-          <div className="flex h-full items-end justify-between rounded-2xl border border-white/10 bg-ink-deep/45 p-4">
+          <div className="flex h-full items-end justify-between gap-3 rounded-2xl border border-white/10 bg-ink-deep/45 p-4">
             <BriefcaseBusiness className="h-8 w-8 text-aqua" aria-hidden="true" />
-            <span className="rounded-full bg-white/10 px-3 py-1 font-mono text-xs text-white">{project.status}</span>
+            <div className="flex flex-col items-end gap-2">
+              <span className="rounded-full bg-white/10 px-3 py-1 font-mono text-xs text-white">{project.status}</span>
+              <span className="inline-flex items-center gap-1.5 font-mono text-xs text-slate">
+                <CalendarClock className="h-3.5 w-3.5 text-aqua" aria-hidden="true" />
+                Started {project.started}
+              </span>
+            </div>
           </div>
         </div>
         <div className="p-6 pb-0">
@@ -452,6 +482,45 @@ function ProjectCard({ project }) {
         </div>
       </div>
     </article>
+  );
+}
+
+function CurrentWork() {
+  return (
+    <section id="current-work" className="mx-auto max-w-6xl px-5 pb-20 sm:px-8">
+      <div className="mb-10 max-w-3xl">
+        <p className="font-mono text-sm text-aqua">Currently working on</p>
+        <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl">Live builds in progress.</h2>
+      </div>
+      <div className="grid gap-5 md:grid-cols-3">
+        {currentWork.map((item) => (
+          <a
+            key={item.name}
+            className="group flex flex-col rounded-2xl border border-white/10 bg-panel/65 p-6 transition hover:-translate-y-1 hover:border-aqua/40 hover:shadow-glow"
+            href={item.href}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="text-xl font-bold text-white">{item.name}</h3>
+              <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-slate transition group-hover:text-aqua" aria-hidden="true" />
+            </div>
+            <span className="mt-2 inline-flex items-center gap-1.5 font-mono text-xs text-slate">
+              <CalendarClock className="h-3.5 w-3.5 text-aqua" aria-hidden="true" />
+              Started {item.started}
+            </span>
+            <p className="mt-4 flex-1 leading-7 text-slate">{item.description}</p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {item.stack.map((tag) => (
+                <span key={tag} className="rounded-full bg-aqua/10 px-3 py-1 font-mono text-xs text-aqua">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
   );
 }
 
