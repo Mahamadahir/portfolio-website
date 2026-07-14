@@ -9,7 +9,9 @@ import {
   Layers3,
   Mail,
   MapPin,
+  Menu,
   Smartphone,
+  X,
 } from 'lucide-react';
 import { createElement, useState } from 'react';
 import profilePhoto from './assets/profile-photo.jpeg';
@@ -25,6 +27,14 @@ const profileLinks = [
     href: 'https://www.linkedin.com/in/mahamaddahir',
     icon: Linkedin,
   },
+];
+
+const navLinks = [
+  { label: 'Experience', href: '#experience' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Now', href: '#current-work' },
+  { label: 'Skills', href: '#skills' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 const emailAddress = 'mrmahamadahir@gmail.com';
@@ -239,6 +249,8 @@ function App() {
 }
 
 function SiteHeader() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <header className="fixed inset-x-0 top-0 z-40 border-b border-aqua/10 bg-ink-deep/80 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
@@ -246,23 +258,38 @@ function SiteHeader() {
           Mahamad Dahir
         </a>
         <div className="hidden items-center gap-7 font-mono text-xs text-slate sm:flex">
-          <a className="transition hover:text-aqua" href="#experience">
-            Experience
-          </a>
-          <a className="transition hover:text-aqua" href="#projects">
-            Projects
-          </a>
-          <a className="transition hover:text-aqua" href="#current-work">
-            Now
-          </a>
-          <a className="transition hover:text-aqua" href="#skills">
-            Skills
-          </a>
-          <a className="transition hover:text-aqua" href="#contact">
-            Contact
-          </a>
+          {navLinks.map((link) => (
+            <a key={link.label} className="transition hover:text-aqua" href={link.href}>
+              {link.label}
+            </a>
+          ))}
         </div>
+        <button
+          className="inline-flex min-h-11 min-w-11 items-center justify-center text-aqua sm:hidden"
+          type="button"
+          onClick={() => setIsMenuOpen((current) => !current)}
+          aria-expanded={isMenuOpen}
+          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+        >
+          {createElement(isMenuOpen ? X : Menu, { className: 'h-6 w-6', 'aria-hidden': true })}
+        </button>
       </nav>
+      {isMenuOpen && (
+        <div className="border-t border-aqua/10 sm:hidden">
+          <div className="mx-auto flex max-w-6xl flex-col px-5 py-2">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                className="min-h-12 border-b border-white/5 py-3 font-mono text-sm text-slate transition hover:text-aqua"
+                href={link.href}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
     </header>
   );
 }
