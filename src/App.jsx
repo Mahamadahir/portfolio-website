@@ -99,7 +99,6 @@ const projects = [
     stack: ['HTML', 'CSS', 'GitHub Actions', 'SEO'],
     links: [
       { label: 'Live site', href: 'https://maineairporttaxi.net/' },
-      { label: 'Repository', href: 'https://github.com/Mahamadahir/MaineAirportTaxi' },
     ],
     accent: 'from-amber-300/25 to-cyan/10',
   },
@@ -127,13 +126,15 @@ const projects = [
     status: 'Live',
     started: 'June 2024',
     description:
-      'A Java Hangman game with Swing and web clients over one Spring Boot backend, including a server-side word flow and online leaderboard.',
+      'A Hangman game with a Java Swing desktop client and a web version over one shared Java core, with server-authoritative play and an online PostgreSQL leaderboard deployed on OpenShift.',
     details: [
-      'Kept Swing and web clients on one shared backend so gameplay rules stayed consistent across interfaces.',
-      'Stored leaderboard data in PostgreSQL and deployed the service on OpenShift.',
-      'Separated the server-side word flow from the clients so new interfaces can reuse the same game logic.',
+      'Shared the round logic, word bank, and definition lookup between the Swing desktop app and the Spring Boot web app so both behave identically and rule changes land in one place.',
+      'Kept the secret word server-side until each round ends, so the shared leaderboard cannot be gamed by reading the page source.',
+      'Stored best streak per player and difficulty in PostgreSQL so scores survive restarts and redeployments.',
+      'Fetched and cached post-round word definitions from dictionaryapi.dev.',
+      'Deployed a multi-stage Docker image built in-cluster on OpenShift, fronted by a Cloudflare-managed domain with health-probe self-healing.',
     ],
-    stack: ['Java 21', 'Spring Boot', 'PostgreSQL', 'OpenShift'],
+    stack: ['Java 21', 'Spring Boot 3', 'PostgreSQL', 'OpenShift', 'Cloudflare'],
     links: [
       { label: 'Live game', href: 'https://hangman.mahamadahir.com' },
       { label: 'README', href: 'https://github.com/Mahamadahir/Java-hangman#readme' },
@@ -152,7 +153,7 @@ const projects = [
       'Designed the data model around planned sessions, completed sets, and long-term progress trends.',
     ],
     stack: ['Flutter', 'Dart', 'Hive', 'Drift'],
-    links: [{ label: 'README', href: 'https://github.com/Mahamadahir/fitness_app#readme' }],
+    links: [{ label: 'README', href: 'https://github.com/Mahamadahir/progressive_overload#readme' }],
     accent: 'from-violet/25 to-aqua/10',
   },
 ];
@@ -164,7 +165,6 @@ const currentWork = [
     description:
       'A subscription pharmacy exam revision app with spaced repetition, on web and mobile over one API, targeting a September 2026 launch.',
     stack: ['Backend', 'Web', 'Mobile'],
-    href: 'https://github.com/Mahamadahir/UnamedApp#readme',
   },
   {
     name: 'PermissionLedger',
@@ -540,32 +540,36 @@ function CurrentWork() {
         <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl">Live builds in progress.</h2>
       </div>
       <div className="grid gap-5 md:grid-cols-3">
-        {currentWork.map((item) => (
-          <a
-            key={item.name}
-            className="group flex flex-col rounded-2xl border border-white/10 bg-panel/65 p-6 transition hover:-translate-y-1 hover:border-aqua/40 hover:shadow-glow"
-            href={item.href}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <div className="flex items-start justify-between gap-3">
-              <h3 className="text-xl font-bold text-white">{item.name}</h3>
-              <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-slate transition group-hover:text-aqua" aria-hidden="true" />
-            </div>
-            <span className="mt-2 inline-flex items-center gap-1.5 font-mono text-xs text-slate">
-              <CalendarClock className="h-3.5 w-3.5 text-aqua" aria-hidden="true" />
-              Started {item.started}
-            </span>
-            <p className="mt-4 flex-1 leading-7 text-slate">{item.description}</p>
-            <div className="mt-5 flex flex-wrap gap-2">
-              {item.stack.map((tag) => (
-                <span key={tag} className="rounded-full bg-aqua/10 px-3 py-1 font-mono text-xs text-aqua">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </a>
-        ))}
+        {currentWork.map((item) => {
+          const Wrapper = item.href ? 'a' : 'div';
+          const linkProps = item.href ? { href: item.href, target: '_blank', rel: 'noreferrer' } : {};
+          return (
+            <Wrapper
+              key={item.name}
+              className="group flex flex-col rounded-2xl border border-white/10 bg-panel/65 p-6 transition hover:-translate-y-1 hover:border-aqua/40 hover:shadow-glow"
+              {...linkProps}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <h3 className="text-xl font-bold text-white">{item.name}</h3>
+                {item.href && (
+                  <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-slate transition group-hover:text-aqua" aria-hidden="true" />
+                )}
+              </div>
+              <span className="mt-2 inline-flex items-center gap-1.5 font-mono text-xs text-slate">
+                <CalendarClock className="h-3.5 w-3.5 text-aqua" aria-hidden="true" />
+                Started {item.started}
+              </span>
+              <p className="mt-4 flex-1 leading-7 text-slate">{item.description}</p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {item.stack.map((tag) => (
+                  <span key={tag} className="rounded-full bg-aqua/10 px-3 py-1 font-mono text-xs text-aqua">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </Wrapper>
+          );
+        })}
       </div>
     </section>
   );
